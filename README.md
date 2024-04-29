@@ -226,6 +226,8 @@ final AS (
 
 ### Conclusions
 
+Examples of two reports are included in this project repository as CSV files as well as full SQL.
+
 By looking at the turnaround time between each step week by week, we can spot delays in the new user sign-up funnel that can potentially affect the Company’s revenue. 
 The chosen approach provides a broader overview of user behavior and service efficiency and helps to spot operational delays early. 
 

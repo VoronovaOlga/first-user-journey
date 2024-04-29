@@ -12,14 +12,13 @@
 
 ### Project Overview
 
-For this project, I’ll be working in the Snowflake. I’m analyzing data from GlowRex, a skincare company. 
+For this project, I’ll be working in Snowflake and will be analyzing data from GlowRex, a skincare company. 
 The company offers a service designed to enhance users' skincare routines with expert guidance.
 
 #### Upon registering for a GlowRex membership, individuals embark on a personalized skincare journey, which consists of the following steps:
  1. It begins with scheduling an initial video consultation with a certified dermatologist. 
  2. The consultation. It allows the dermatologist to tailor a skincare regimen to the user's unique needs and recommend specialized products.
- 3.  Following this personalized recommendation, users purchase the suggested products conveniently delivered quarterly for the rest of their membership period.
-
+ 3. Following this personalized recommendation, users purchase the suggested products conveniently delivered quarterly for the rest of their membership period.
 
 This structured approach ensures that users continuously receive professional dermatological advice and high-quality skincare products, creating sustained skin health improvement.
 
@@ -31,6 +30,7 @@ This structured approach ensures that users continuously receive professional de
 - SunGuard SPF Lotion - spf_lotion
 
 ### Goal:
+The Company's goal is to be able to spot and fix delays in customer journey early, and to be able to find correlations of ineficciencies with decrease in revenue.
 The project aims to provide a report with the turnaround time for each step in the user journey: 
 1. from sign-up to first appointment, 
 2. from first appointment to first order, and 
@@ -38,7 +38,7 @@ The project aims to provide a report with the turnaround time for each step in t
 
 ### Data Sources 
 The database schema is located in SQLII database, RAW_DATA schema, and includes the following tables:
-- Users - Contains user demographics and signup details.
+- Users - Contains user signup details.
 - Appointments - Holds appointment scheduling details, including the user ID, appointment status (e.g., booked, completed, canceled), and timestamps.
 - rx_orders - Tracks prescription orders by the user, including the product ID
 
@@ -80,37 +80,37 @@ I’ll use a window function (ROW_NUMBER()) partitioned by user_id and appointme
 
 ```sql
 cleaned_appts AS (
-    SELECT *,
-    ROW_NUMBER() OVER (PARTITION BY user_id, appointment_date
-    ORDER BY created_date DESC) AS rn
-    FROM appointments
-    ),
+     SELECT *,
+     ROW_NUMBER() OVER (PARTITION BY user_id, appointment_date
+     ORDER BY created_date DESC) AS rn
+     FROM appointments
+),
 
-    appts_status AS (
-    SELECT *
-    FROM cleaned_appts
-    WHERE rn = 1
-    ),
+appts_status AS (
+     SELECT *
+     FROM cleaned_appts
+     WHERE rn = 1
+),
 
-    completed_appts AS(
-    SELECT *
-    FROM appts_status
-    WHERE appointment_status = 'Completed'
-    ORDER BY 1,3
-    ),
+completed_appts AS(
+     SELECT *
+     FROM appts_status
+     WHERE appointment_status = 'Completed'
+     ORDER BY 1,3
+),
 
-    first_completed_appt AS (
-    SELECT *,
-    ROW_NUMBER() OVER (PARTITION BY user_id
-    ORDER BY appointment_date) AS first_appt
-    FROM completed_appts 
-    QUALIFY first_appt = 1
-    )
+first_completed_appt AS (
+     SELECT *,
+     ROW_NUMBER() OVER (PARTITION BY user_id
+     ORDER BY appointment_date) AS first_appt
+     FROM completed_appts 
+     QUALIFY first_appt = 1
+)
 ```
 
 #### 3.  Finding the first Prescription Order after the appointment
 
-Next, I’ll identify the first Rx order for each user; I’ll have to consider that each order might have multiple line items. Since the table has line items that duplicate order IDs, use DENSE_RANK() instead of ROW_NUMBER(). This will ensure that various lines with the same OrderId will be treated equally in rank, the first invoice issued is correctly identified, and then filter it once more to keep only the first order for each user. 
+Next, I’ll identify the first Rx order for each user; I’ll have to consider that each order might have multiple line items. Since the table has line items that duplicate order IDs, I'll use DENSE_RANK() instead of ROW_NUMBER(). This will ensure that various lines with the same OrderId will be treated equally in rank, the first invoice issued is correctly identified, and then filter it once more to keep only the first order for each user. 
 
 ```sql
 first_orders AS (
@@ -119,14 +119,14 @@ first_orders AS (
     ORDER BY transaction_date, order_number) as dr
     FROM rx_orders
     QUALIFY dr = 1
-    )
+)
 ```
 
 #### 4. Combining Insights into a View “first_user_journey”
 
 The next step will be to combine tables to start shaping the view of the “first_user_journey.”
 
-I’ll JOIN the users table with the first_completed_appt CTE I created earlier, followed by LEFT JOINT of the users, with_appts and first_orders tables. I’ll also convert created_at to DATE format. 
+I’ll JOIN the users table with the first_completed_appt CTE I created earlier, followed by LEFT JOIN of the users, with_appts and first_orders tables. I’ll also convert created_at to a DATE format. 
 
 ```sql
 with_appts AS(
@@ -137,9 +137,9 @@ with_appts AS(
     JOIN first_completed_appt
     ON first_completed_appt.user_id = users.user_id
     ORDER BY 1,2,3
-    ),
+),
 
-    with_orders AS(
+with_orders AS(
     SELECT users.user_id,
            users.created_at::date AS sign_up,
            with_appts.fst_completed_appt,
@@ -151,7 +151,7 @@ with_appts AS(
         ON with_appts.user_id = users.user_id
     LEFT JOIN first_orders
         ON first_orders.user_id = with_appts.user_id
-    )
+)
 ```
 
 There are multiple rows for the same user_id because users can order multiple items. Add the sum of item_amount to calculate fst_order_value per user.
@@ -171,12 +171,12 @@ with_orders_agg AS (
            first_order_number,
            first_order_date
     ORDER BY 1
-    )
+)
 ```
 
 #### 5. Calculating turnaround time
 
-I’ll calculate the turnaround time between each step and the sign-up week to see the weekly turnaround:
+I’ll calculate the turnaround time between each step and the sign-up week to see the weekly turnaround in the next step:
 
 1. Days between user sign-up to the first appointment.
 2. Days between the first appointment and the first Rx order.
@@ -198,14 +198,12 @@ turnaround AS(
 
 #### 6. Create a view by utilizing “CREATE VIEW”.
 
-I’ll create a view so all the query results can be utilized as if they were tables.
+I’ll create a view so that the query output is saved and can be used for reporting needs.
 
 
 ### Final Operational Metrics
 
-Now that the view is created, I’m going to do the final metrics:
-
-The number of users signed up each week:
+Now that the view is created, I’m going to calculate the final metric with the number of users signed up each week:
 
 - Average time to each step.
 - The percentage of users completing each step.
@@ -228,9 +226,8 @@ final AS (
 
 ### Conclusions
 
-By looking at the turnaround time between each step week by week, we can spot delays in the new user sign-up funnel that can potentially affect the company’s revenue. 
+By looking at the turnaround time between each step week by week, we can spot delays in the new user sign-up funnel that can potentially affect the Company’s revenue. 
 The chosen approach provides a broader overview of user behavior and service efficiency and helps to spot operational delays early. 
-Our report shows that  first_order_value depends on how long the customer waits for his/her appointment. 
 
 
 

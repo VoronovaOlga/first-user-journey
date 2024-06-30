@@ -44,7 +44,7 @@ The database schema is located in SQLII database, RAW_DATA schema, and includes 
 
 ### Tools:
  - Snowflake [Click here](https://app.snowflake.com/)
- - Tableau [Click here](https://public.tableau.com/app/discover))
+ - Tableau [Click here](https://public.tableau.com/app/discover)
 
 ### Analysis Details
 

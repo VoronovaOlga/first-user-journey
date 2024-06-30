@@ -9,7 +9,6 @@
 - [Analysis Details](#analysis-details)
 - [Final Operational Metrics](#final-operational-metrics)
 - [Conclusions](#conclusions)
-- [Tableau visualization](#tableau-visualization)
 
 ### Project Overview
 
@@ -45,6 +44,7 @@ The database schema is located in SQLII database, RAW_DATA schema, and includes 
 
 ### Tools:
  - Snowflake [Click here](https://app.snowflake.com/)
+ - Tableau [Click here](https://public.tableau.com/app/discover))
 
 ### Analysis Details
 
@@ -227,14 +227,11 @@ final AS (
 
 ### Conclusions
 
-Examples of two reports are included in this project repository as CSV files as well as full SQL, I also included a link [Click here]([https://app.snowflake.com/](https://public.tableau.com/views/GlowRexDashboard/GlowRexDashboard?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)) to Tableau dashboard bellow.
+Examples of two reports are included in this project repository as CSV files as well as full SQL, I also included a link to Tableau dashboard. [Click here](https://public.tableau.com/views/GlowRexDashboard/GlowRexDashboard?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)
 
 By looking at the turnaround time between each step week by week, we can spot delays in the new user sign-up funnel that can potentially affect the Company’s revenue. 
 The chosen approach provides a broader overview of user behavior and service efficiency and helps to spot operational delays early. 
 
-### Tableau Visualization
-
-https://public.tableau.com/views/GlowRexDashboard/GlowRexDashboard?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link
 
 
 

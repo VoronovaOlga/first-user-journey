@@ -229,11 +229,11 @@ final AS (
 
 Examples of two reports are included in this project repository as CSV files as well as full SQL, I also included a link to Tableau dashboard. [Click here](https://public.tableau.com/views/GlowRexDashboard/GlowRexDashboard?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)
 
+
+<img width="1514" alt="Screenshot 2024-06-29 at 12 28 23" src="https://github.com/VoronovaOlga/first-user-journey/assets/168027474/c19eea01-dd00-4b3a-9210-b159cff42367">
+
+
 By looking at the turnaround time between each step week by week, we can spot delays in the new user sign-up funnel that can potentially affect the Company’s revenue. 
 The chosen approach provides a broader overview of user behavior and service efficiency and helps to spot operational delays early. 
-
-
-
-
 
 

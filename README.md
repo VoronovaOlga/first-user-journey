@@ -1,4 +1,4 @@
-# GlowRex: The Radiant Skincare Journey
+# Healthcare: The Radiant Skincare Journey
 
 ## Table of content:
 
@@ -12,7 +12,7 @@
 
 ### Project Overview
 
-For this project, I’ll be working in Snowflake and will be analyzing data from GlowRex, a skincare company. 
+For this project, I’ll be working in Snowflake and will be analyzing data for a skincare company. 
 The company offers a service designed to enhance users' skincare routines with expert guidance.
 
 #### Upon registering for a GlowRex membership, individuals embark on a personalized skincare journey, which consists of the following steps:

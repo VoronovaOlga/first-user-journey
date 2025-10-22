@@ -15,7 +15,7 @@
 For this project, I’ll be working in Snowflake and will be analyzing data for a skincare company. 
 The company offers a service designed to enhance users' skincare routines with expert guidance.
 
-#### Upon registering for a GlowRex membership, individuals embark on a personalized skincare journey, which consists of the following steps:
+#### Upon registering for a membership, individuals embark on a personalized skincare journey, which consists of the following steps:
  1. It begins with scheduling an initial video consultation with a certified dermatologist. 
  2. The consultation. It allows the dermatologist to tailor a skincare regimen to the user's unique needs and recommend specialized products.
  3. Following this personalized recommendation, users purchase the suggested products conveniently delivered quarterly for the rest of their membership period.

@@ -233,7 +233,6 @@ Examples of two reports are included in this project repository as CSV files as 
 <img width="1461" alt="GlowRex Tableau Dashboard" src="https://github.com/VoronovaOlga/first-user-journey/assets/168027474/423b4452-0943-41de-862b-f3ab3fef8cce">
 
 
-By looking at the turnaround time between each step week by week, we can spot delays in the new user sign-up funnel that can potentially affect the Company’s revenue. 
-The chosen approach provides a broader overview of user behavior and service efficiency and helps to spot operational delays early. 
+By tracking turnaround times and conversion rates week by week, the company can quickly identify delays in the user journey that reduce engagement and lower first-order revenue. This structured approach provides a clear view of how efficiently users move through key steps — from sign-up to appointment to order — and highlights where the funnel slows down. By surfacing these issues early, the team can act proactively to optimize the onboarding process, increase appointment completion, and protect revenue growth.
 
 
